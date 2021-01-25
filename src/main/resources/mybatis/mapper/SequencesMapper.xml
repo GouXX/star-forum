@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gxx.starforum.dao.SequencesMapper">
+
+    <select id="getOneBySeqKey" resultType="cn.gxx.starforum.entity.Sequences" parameterType="string">
+        select * from sequences where seq_key = #{key} for update
+    </select>
+
+    <update id="updateForIncrement" parameterType="map">
+        update sequences set seq_value = #{svalue} where seq_key = #{skey}
+    </update>
+
+</mapper>

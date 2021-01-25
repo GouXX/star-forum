@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: @spring.profiles.active@
+  resources:
+    static-locations: classpath:static/,classpath:/META-INF/resources/,classpath:/META-INF/resources/webjars/,classpath:/static/webapp/
+mybatis-plus:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml

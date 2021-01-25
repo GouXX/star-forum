@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.gxx.starforum.dao.UserInfoMapper">
+
+    <select id="getUserByName" parameterType="string" resultType="cn.gxx.starforum.entity.UserInfo">
+        select * from user_info where username = #{username}
+    </select>
+
+    <insert id="insertForSignup" parameterType="cn.gxx.starforum.entity.UserInfo">
+        insert into user_info (u_number,username,nick_name,password,signup_type,register_time)
+        values (#{uNumber},#{username},#{nickName},#{password},#{signupType},#{registerTime})
+    </insert>
+
+    <select id="countByName" parameterType="string" resultType="int">
+        select count(1) from user_info where username = #{name}
+    </select>
+
+    <select id="getRolesByUserName" parameterType="string" resultType="string">
+        select ro.name from user_info ui left join user_role ur on ui.id = ur.id
+        left join roles ro on ur.role_id = ro.id where ui.username = #{username}
+    </select>
+
+</mapper>
