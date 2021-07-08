@@ -55,7 +55,7 @@ public class UsernamePwdTokenAuthenticationFilter extends AbstractAuthentication
 
     //用户信息验证通过后调用，产生token并添加到响应头中
     @Override
-    public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
+    public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
         Map<String, Object> clMap = new HashMap<>();
         String astr = authResult.getAuthorities().toString();
         clMap.put("roles", astr.substring(1, astr.length()-1).replace(" ", ""));
@@ -66,17 +66,21 @@ public class UsernamePwdTokenAuthenticationFilter extends AbstractAuthentication
                 .signWith(SignatureAlgorithm.HS512, "MyJwtSecret")
                 .compact();
         response.addHeader("Authorization", "Bearer " + token);
+        response.setContentType("application/json;charset=utf-8");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(JSON.toJSONString(ResultModel.ok()));
     }
 
     @Override
     public void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         SecurityContextHolder.clearContext();
 
-        response.setStatus(500);
-        ResultModel resultModel = new ResultModel(ResultCodeEnum.SERVER_ERROR);
+        ResultModel resultModel = new ResultModel("50000", failed.getMessage());
         if (failed instanceof BadCredentialsException){
-            response.setStatus(401);
+            response.setStatus(200);
             resultModel = new ResultModel(ResultCodeEnum.USER_LOGIN_FAIL);
+        }else{
+
         }
         response.setContentType("application/json;charset=utf-8");
         response.setCharacterEncoding("UTF-8");

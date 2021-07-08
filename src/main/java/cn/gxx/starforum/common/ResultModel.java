@@ -4,7 +4,7 @@ public class ResultModel {
     /**
      * 返回码
      */
-    private int code;
+    private String code;
 
     /**
      * 返回结果描述
@@ -16,7 +16,7 @@ public class ResultModel {
      */
     private Object content;
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
@@ -28,13 +28,13 @@ public class ResultModel {
         return content;
     }
 
-    public ResultModel(int code, String message) {
+    public ResultModel(String code, String message) {
         this.code = code;
         this.message = message;
         this.content = "";
     }
 
-    public ResultModel(int code, String message, Object content) {
+    public ResultModel(String code, String message, Object content) {
         this.code = code;
         this.message = message;
         this.content = content;

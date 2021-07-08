@@ -56,7 +56,10 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
                     .getBody();
 
             if (claims != null) {
-                List<GrantedAuthority> authorities = Arrays.asList(claims.get("roles").toString().split(",")).stream().map(r -> new SimpleGrantedAuthority(r)).collect(Collectors.toList());
+                List<GrantedAuthority> authorities = new ArrayList<>();
+                if (claims.get("roles") != null && !claims.get("roles").toString().equals("")){
+                    authorities = Arrays.asList(claims.get("roles").toString().split(",")).stream().map(r -> new SimpleGrantedAuthority(r)).collect(Collectors.toList());
+                }
                 return new UsernamePasswordAuthenticationToken(claims.getSubject(), null, authorities);
             }
             return null;
